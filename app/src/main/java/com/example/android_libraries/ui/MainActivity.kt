@@ -3,12 +3,14 @@ package com.example.android_libraries.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.android_libraries.databinding.ActivityMainBinding
+import com.example.android_libraries.mvp.presenter.MainPresenter
+import com.example.android_libraries.mvp.view.MainView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainView {
 
-    private var ui:ActivityMainBinding? = null
+    private var ui: ActivityMainBinding? = null
 
-    val counters = mutableListOf(0, 0, 0)
+    val presenter = MainPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,23 +18,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(ui?.root)
 
         ui?.btnCounter1?.setOnClickListener {
-            ui?.btnCounter1?.text = (++counters[0]).toString()
+            presenter.counterClick1()
         }
-
         ui?.btnCounter2?.setOnClickListener {
-            ui?.btnCounter2?.text = (++counters[1]).toString()
+            presenter.counterClick2()
         }
-
         ui?.btnCounter3?.setOnClickListener {
-            ui?.btnCounter3?.text = (++counters[2]).toString()
+            presenter.counterClick3()
         }
-
-        initView()
     }
 
-    fun initView(){
-        ui?.btnCounter1?.text = counters[0].toString()
-        ui?.btnCounter2?.text = counters[1].toString()
-        ui?.btnCounter3?.text = counters[2].toString()
+    override fun setButton1Text(text: String) {
+        ui?.btnCounter1?.text = text
+    }
+
+    override fun setButton2Text(text: String) {
+        ui?.btnCounter2?.text = text
+    }
+
+    override fun setButton3Text(text: String) {
+        ui?.btnCounter3?.text = text
     }
 }
