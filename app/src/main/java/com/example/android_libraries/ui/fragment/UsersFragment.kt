@@ -14,6 +14,7 @@ import com.example.android_libraries.ui.App
 import com.example.android_libraries.ui.BackClickListener
 import com.example.android_libraries.ui.adapter.UsersRVAdapter
 import com.github.terrakok.cicerone.Screen
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -24,7 +25,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackClickListener {
     }
 
     private val presenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepo(), App.instance.router, screens)
+        UsersPresenter(GithubUsersRepo(), App.instance.router, screens, iuScheduler) // не могу понять,
+    // как правильно указать два последних аргумента в конструкторе...
     }
 
     private var vb: FragmentUsersBinding? = null
