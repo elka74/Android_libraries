@@ -7,9 +7,10 @@ import com.example.android_libraries.mvp.presenter.list.IUserListPresenter
 import com.example.android_libraries.mvp.view.UsersView
 import com.example.android_libraries.mvp.view.list.IUserItemView
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screens:IScreens) :
+class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val screens:IScreens, val uiScheduler:Scheduler) :
     MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
@@ -23,7 +24,6 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
 
         override fun getCount() = users.size
     }
-
     val usersListPresenter = UsersListPresenter()
 
     override fun onFirstViewAttach() {
@@ -39,9 +39,16 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router, val scr
 
     fun loadData() {
         val users = usersRepo.getUsers()
+                .observeOn(uiScheduler)
+                .subscribe({
+                    usersListPresenter.users.addAll(it)
+                    viewState.updateList()
+                },{
+                  it.printStackTrace()
+                })
         usersListPresenter.users.clear()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+
+
     }
 
     fun backClick(): Boolean {
