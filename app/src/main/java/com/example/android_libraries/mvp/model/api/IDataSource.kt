@@ -11,7 +11,7 @@ import retrofit2.http.Url
 interface IDataSource {
 
     @GET("users")
-    fun getUsers(@Header("Authorization") token: String) : Single<List<GithubUser>>
+    fun getUsers() : Single<List<GithubUser>>
 
 
    @GET
