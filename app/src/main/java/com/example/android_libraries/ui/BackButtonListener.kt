@@ -1,5 +1,5 @@
 package com.example.android_libraries.ui
 
-interface BackClickListener {
+interface BackButtonListener {
     fun backPressed(): Boolean
 }

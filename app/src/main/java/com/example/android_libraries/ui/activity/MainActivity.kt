@@ -6,8 +6,7 @@ import com.example.android_libraries.databinding.ActivityMainBinding
 import com.example.android_libraries.mvp.presenter.MainPresenter
 import com.example.android_libraries.mvp.view.MainView
 import com.example.android_libraries.ui.App
-import com.example.android_libraries.ui.BackClickListener
-import com.example.android_libraries.ui.adapter.UsersRVAdapter
+import com.example.android_libraries.ui.BackButtonListener
 import com.example.android_libraries.ui.navigation.AndroidScreens
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
@@ -17,17 +16,13 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     val navigator = AppNavigator(this, R.id.container)
 
-    private var ui: ActivityMainBinding? = null
-    private val presenter by moxyPresenter {
-        MainPresenter(App.instance.router, AndroidScreens())
-    }
-
-    private var adapter: UsersRVAdapter? = null
+    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
+    private var vb: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ui = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(ui?.root)
+        vb = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(vb?.root)
     }
 
     override fun onResumeFragments() {
@@ -42,7 +37,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     override fun onBackPressed() {
         supportFragmentManager.fragments.forEach {
-            if(it is BackClickListener && it.backPressed()){
+            if(it is BackButtonListener && it.backPressed()){
                 return
             }
         }
