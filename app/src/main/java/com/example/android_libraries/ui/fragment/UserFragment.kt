@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_libraries.databinding.FragmentUserBinding
 import com.example.android_libraries.mvp.model.api.ApiHolder
+import com.example.android_libraries.mvp.model.cash.room.RoomGithubRepositoriesCash
 import com.example.android_libraries.mvp.model.entity.GithubUser
 import com.example.android_libraries.mvp.model.entity.room.db.Database
 import com.example.android_libraries.mvp.model.repo.RetrofitGithubRepositoriesRepo
-import com.example.android_libraries.mvp.model.repo.RetrofitGithubUsersRepo
 import com.example.android_libraries.mvp.presenter.UserPresenter
 import com.example.android_libraries.mvp.view.UserView
 import com.example.android_libraries.ui.App
@@ -21,7 +21,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserFragment:  MvpAppCompatFragment(), UserView, BackButtonListener {
+class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     companion object {
         private const val USER_ARG = "user"
@@ -37,19 +37,27 @@ class UserFragment:  MvpAppCompatFragment(), UserView, BackButtonListener {
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
         UserPresenter(
             AndroidSchedulers.mainThread(),
-            RetrofitGithubRepositoriesRepo(ApiHolder.api,
+            RetrofitGithubRepositoriesRepo(
+                ApiHolder.api,
                 AndroidNetworkStatus(App.instance),
-                Database.getInstance()
+                RoomGithubRepositoriesCash(Database.getInstance())
             ),
-            App.instance.router, user, AndroidScreens()
+            App.instance.router,
+            user,
+            AndroidScreens()
         )
     }
 
-    var adapter: RepositoriesRVAdapter? = null
-    private var vb:FragmentUserBinding? = null
+    private var vb: FragmentUserBinding? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-      FragmentUserBinding.inflate(inflater, container, false).also {
+    var adapter: RepositoriesRVAdapter? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) =
+        FragmentUserBinding.inflate(inflater, container, false).also {
             vb = it
         }.root
 

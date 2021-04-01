@@ -10,14 +10,13 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.lang.RuntimeException
 
-class RoomGithubRepositoriesCash(val db: Database): IGithubRepositoriesCash {
+class RoomGithubRepositoriesCash(val db: Database) : IGithubRepositoriesCash {
     override fun getRepositories(user: GithubUser) = Single.fromCallable {
         val roomUser = db.userDao.findByLogin(user.login) ?: throw RuntimeException()
-        return@fromCallable db.repositoryDao.findForUser(roomUser.id).map {user->
+        return@fromCallable db.repositoryDao.findForUser(roomUser.id).map { user ->
             GithubRepositories(user.id, user.name)
         }
     }.subscribeOn(Schedulers.io())
-
 
 
     override fun putRepositories(
@@ -25,7 +24,7 @@ class RoomGithubRepositoriesCash(val db: Database): IGithubRepositoriesCash {
         repositories: List<GithubRepositories>
     ) = Completable.fromAction {
         val roomUser = db.userDao.findByLogin(user.login) ?: throw RuntimeException()
-        val roomRepositories = repositories.map {repository->
+        val roomRepositories = repositories.map { repository ->
             RoomGithubRepository(repository.id, repository.name ?: "", roomUser.id)
         }
         db.repositoryDao.insert(roomRepositories)

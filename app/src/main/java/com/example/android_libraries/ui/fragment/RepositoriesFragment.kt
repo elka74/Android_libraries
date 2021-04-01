@@ -15,6 +15,7 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
 class RepositoriesFragment : MvpAppCompatFragment(), RepositoriesView, BackButtonListener {
+
     companion object {
         private const val REPOSITORY_ARG = "repository"
 
@@ -28,11 +29,16 @@ class RepositoriesFragment : MvpAppCompatFragment(), RepositoriesView, BackButto
     private var vb: FragmentRepositoriesBinding? = null
 
     val presenter: RepositoriesPresenter by moxyPresenter {
-        val repository = arguments?.getParcelable<GithubRepositories>(REPOSITORY_ARG) as GithubRepositories
+        val repository =
+            arguments?.getParcelable<GithubRepositories>(REPOSITORY_ARG) as GithubRepositories
         RepositoriesPresenter(App.instance.router, repository)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) =
         FragmentRepositoriesBinding.inflate(inflater, container, false).also {
             vb = it
         }.root

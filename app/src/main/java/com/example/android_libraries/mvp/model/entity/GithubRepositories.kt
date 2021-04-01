@@ -8,4 +8,4 @@ import com.google.gson.annotations.Expose
 data class GithubRepositories(
     @Expose val id: String,
     @Expose val name: String,
-): Parcelable
+) : Parcelable

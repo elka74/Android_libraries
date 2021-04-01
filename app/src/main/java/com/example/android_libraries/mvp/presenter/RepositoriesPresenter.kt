@@ -5,8 +5,8 @@ import com.example.android_libraries.mvp.view.RepositoriesView
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 
-class RepositoriesPresenter (val router: Router, val githubRepository: GithubRepositories)
-    : MvpPresenter<RepositoriesView>() {
+class RepositoriesPresenter(val router: Router, val githubRepository: GithubRepositories) :
+    MvpPresenter<RepositoriesView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()

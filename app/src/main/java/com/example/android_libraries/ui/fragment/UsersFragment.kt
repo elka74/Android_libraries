@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_libraries.databinding.FragmentUsersBinding
 import com.example.android_libraries.mvp.model.api.ApiHolder
+import com.example.android_libraries.mvp.model.cash.room.RoomGithubUsersCash
 import com.example.android_libraries.mvp.model.entity.room.db.Database
 import com.example.android_libraries.mvp.model.repo.RetrofitGithubUsersRepo
 import com.example.android_libraries.mvp.presenter.UsersPresenter
@@ -31,7 +32,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
             RetrofitGithubUsersRepo(
                 ApiHolder.api,
                 AndroidNetworkStatus(App.instance),
-                Database.getInstance()
+                RoomGithubUsersCash(Database.getInstance())
             ),
             App.instance.router, AndroidScreens(),
         )
@@ -41,7 +42,11 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     private var vb: FragmentUsersBinding? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) =
         FragmentUsersBinding.inflate(inflater, container, false).also {
             vb = it
         }.root

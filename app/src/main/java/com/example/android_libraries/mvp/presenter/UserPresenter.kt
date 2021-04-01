@@ -11,21 +11,22 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 
-class UserPresenter(val uiScheduler: Scheduler, val repositoriesRepo: IGithubRepositoriesRepo,
-                    val router: Router, val user: GithubUser, val screens: IScreens) : MvpPresenter<UserView>() {
+class UserPresenter(
+    val uiScheduler: Scheduler, val repositoriesRepo: IGithubRepositoriesRepo,
+    val router: Router, val user: GithubUser, val screens: IScreens
+) : MvpPresenter<UserView>() {
 
 
+    class RepositoriesListPresenter : IRepositoriesListPresenter {
+        val repositories = mutableListOf<GithubRepositories>()
+        override var itemClickListener: ((IRepositoryItemView) -> Unit)? = null
+        override fun getCount() = repositories.size
 
-        class RepositoriesListPresenter : IRepositoriesListPresenter {
-            val repositories = mutableListOf<GithubRepositories>()
-            override var itemClickListener: ((IRepositoryItemView) -> Unit)? = null
-            override fun getCount() = repositories.size
-
-            override fun bindView(view: IRepositoryItemView) {
-                val repository = repositories[view.pos]
-                repository.name?.let { view.setName(it) }
-            }
+        override fun bindView(view: IRepositoryItemView) {
+            val repository = repositories[view.pos]
+            repository.name?.let { view.setName(it) }
         }
+    }
 
     val repositoriesListPresenter = RepositoriesListPresenter()
 

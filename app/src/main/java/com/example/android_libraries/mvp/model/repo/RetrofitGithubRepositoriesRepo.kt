@@ -3,8 +3,8 @@ package com.example.android_libraries.mvp.model.repo
 import com.example.android_libraries.mvp.model.api.IDataSource
 import com.example.android_libraries.mvp.model.cash.IGithubRepositoriesCash
 import com.example.android_libraries.mvp.model.entity.GithubUser
+import com.example.android_libraries.mvp.model.entity.room.db.Database
 import com.example.android_libraries.mvp.model.network.INetworkStatus
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 
@@ -15,7 +15,7 @@ class RetrofitGithubRepositoriesRepo(
 ) : IGithubRepositoriesRepo {
 
     override fun getRepositories(user: GithubUser) =
-        networkStatus.isOnlineSingle().flatMap{ isOnline ->
+        networkStatus.isOnlineSingle().flatMap { isOnline ->
             if (isOnline) {
                 user.reposUrl?.let { url ->
                     api.getRepositories(url)
@@ -24,13 +24,9 @@ class RetrofitGithubRepositoriesRepo(
                                 .toSingleDefault(repositories)
                         }
                 }
-
-                } else {
-                    Single.fromCallable {
-                       cash.getRepositories()
-                    }
-                }
-            }.subscribeOn(Schedulers.io())
-
-        }
+            } else {
+                cash.getRepositories(user)
+            }
+        }.subscribeOn(Schedulers.io())
+}
 

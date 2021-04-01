@@ -10,8 +10,7 @@ import com.bumptech.glide.request.target.Target
 import com.example.android_libraries.mvp.model.image.IImageLoader
 
 class GlideImageLoader : IImageLoader<ImageView> {
-
-    override fun load(url: String, container: ImageView) {
+    override fun loadInto(url: String, container: ImageView) {
         Glide.with(container.context)
             .asBitmap()
             .load(url)
@@ -22,22 +21,22 @@ class GlideImageLoader : IImageLoader<ImageView> {
                     target: Target<Bitmap>?,
                     isFirstResource: Boolean
                 ): Boolean {
+                    //Обработка провала загрузки
                     return false
                 }
 
                 override fun onResourceReady(
-                    resource: Bitmap?,
+                    bitmap: Bitmap?,
                     model: Any?,
                     target: Target<Bitmap>?,
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    //Можно сделать что-то с bitmap
+                    //Делаем что-то с bitmap
+
                     return false
                 }
             })
             .into(container)
-
     }
-
 }

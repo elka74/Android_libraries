@@ -7,6 +7,6 @@ import io.reactivex.rxjava3.core.Single
 
 interface IGithubRepositoriesCash {
     fun getRepositories(user: GithubUser): Single<List<GithubRepositories>>
-    fun putRepositories(user: GithubUser, repositories:List<GithubRepositories>):Completable
+    fun putRepositories(user: GithubUser, repositories: List<GithubRepositories>): Completable
 
 }

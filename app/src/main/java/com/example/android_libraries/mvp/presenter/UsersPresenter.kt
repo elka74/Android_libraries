@@ -10,7 +10,12 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 
-class UsersPresenter(val uiScheduler: Scheduler, val usersRepo: IGithubUsersRepo, val router: Router, val screens: IScreens) :
+class UsersPresenter(
+    val uiScheduler: Scheduler,
+    val usersRepo: IGithubUsersRepo,
+    val router: Router,
+    val screens: IScreens
+) :
     MvpPresenter<UsersView>() {
 
     class UsersListPresenter : IUserListPresenter {

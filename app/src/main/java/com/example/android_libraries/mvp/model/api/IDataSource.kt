@@ -11,10 +11,10 @@ import retrofit2.http.Url
 interface IDataSource {
 
     @GET("users")
-    fun getUsers() : Single<List<GithubUser>>
+    fun getUsers(): Single<List<GithubUser>>
 
 
-   @GET
-   fun getRepositories(@Url url: String) : Single<List<GithubRepositories>>
+    @GET
+    fun getRepositories(@Url url: String): Single<List<GithubRepositories>>
 
 }

@@ -8,10 +8,11 @@ import com.example.android_libraries.ui.fragment.UserFragment
 import com.example.android_libraries.ui.fragment.UsersFragment
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 
-class AndroidScreens : IScreens{
+class AndroidScreens : IScreens {
         override fun users() = FragmentScreen { UsersFragment.newInstance() }
-        override fun user(githubUser: GithubUser) = FragmentScreen{
-                UserFragment.newInstance(githubUser)}
-        override fun repositories(githubRepositories: GithubRepositories) = FragmentScreen{
-                RepositoriesFragment.newInstance(githubRepositories) }
+        override fun user(githubUser: GithubUser) =
+                FragmentScreen { UserFragment.newInstance(githubUser) }
+
+        override fun repositories(githubRepositories: GithubRepositories) =
+                FragmentScreen { RepositoriesFragment.newInstance(githubRepositories) }
 }
