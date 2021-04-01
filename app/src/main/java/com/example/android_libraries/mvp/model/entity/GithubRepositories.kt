@@ -6,6 +6,6 @@ import com.google.gson.annotations.Expose
 
 @Parcelize
 data class GithubRepositories(
-    @Expose val id: String? = null,
-    @Expose val name:String? = null
+    @Expose val id: String,
+    @Expose val name: String,
 ): Parcelable
